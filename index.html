@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Prática - RPA Streaming.md</title>
+<title>Prática - RPA Streaming</title>
 <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
 
 <style>
@@ -488,11 +488,27 @@ pre code {
 <li>
 <p>O link da transmissão pode ser encontrado no <a href="https://studio.youtube.com/">YouTube Studio</a> em <em>&quot;Conteúdo &gt; Ao vivo&quot;</em>;</p>
 </li>
+<li>
+<p>No painel <em><code>&quot;Controle&quot;</code></em> clique em <em><code>&quot;Interromper transmissão&quot;</code></em> para encerrar a transmissão.</p>
+</li>
 </ol>
-<h2 id="vi-conclus%C3%A3o">VI. Conclusão</h2>
-<ol>
-<li>No painel <em><code>&quot;Controle&quot;</code></em> clique em <em><code>&quot;Interromper transmissão&quot;</code></em> para encerrar a transmissão.</li>
-</ol>
-
+<h2 id="considera%C3%A7%C3%B5es%20finais">VI. Considerações finais</h2>
+<ul>
+<li>
+<p>O exemplo prático de streaming de vídeo apresentado aqui assume que o computador que roda o servidor de mídia seja capaz de atender a requisições RTMP na internet. É responsabilidade do usuário a implementação de dispositivos de segurança lógica para um servidor exposto à internet.</p>
+</li>
+<li>
+<p>É também responsabilidade do usuário a correta configuação dos dispositivos da rede em que o seu servidor de mídia esteja inserido (configuração de regras de entrada/saída em firewall, DMZ, NAT, redirecionamentos de endereços IP, roteamentos, etc.)</p>
+</li>
+<li>
+<p>O drone utilizado neste exemplo foi um DJI Mavic 2 Enterprise. Qualquer outra aeronave pode ser utilizada para streaming com o método apresentado desde que transmita fluxo de vídeo via RTMP.</p>
+</li>
+<li>
+<p>O uso de um smartphone como meio de acesso à internet para o controle remoto da aeronave foi escolhido por sua praticidade, acessibilidade e economia. Em locais com grande concentração de pessoas em que o piloto necessite operar já foram constatados travamentos, interrupções e maior delay na transmissão devidos ao congestinoamento da rede de telefonia móvel. O uso de <a href="https://2live.com.br/mochilink-o-que-e/">mochilinks</a> e\ou <a href="https://starlink.com/br/roam">equipamentos de internet via satélite</a> podem ajudar a mitigar alguns desses efeitos.</p>
+</li>
+<li>
+<p>Operações de streaming de vídeos de drones exigem comunicação constante e afinada entre pilotos (no terreno) e o diretor de imagens (na base).</p>
+</li>
+</ul>
 </body>
 </html>

@@ -1,514 +1,720 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<title>Prática - RPA Streaming</title>
-<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+	<title>Prática - RPA Streaming</title>
+	<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
 
-<style>
-body {
-	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
-	font-size: var(--vscode-markdown-font-size, 20px);
-	padding: 0 26px;
-	line-height: var(--vscode-markdown-line-height, 28px);
-	word-wrap: break-word;
-}
+	<style>
+		body {
+			font-family: var(--vscode-markdown-font-family,
+					-apple-system,
+					BlinkMacSystemFont,
+					"Segoe WPC",
+					"Segoe UI",
+					"Ubuntu",
+					"Droid Sans",
+					sans-serif);
+			font-size: var(--vscode-markdown-font-size, 20px);
+			padding: 0 26px;
+			line-height: var(--vscode-markdown-line-height, 28px);
+			word-wrap: break-word;
+		}
 
-#code-csp-warning {
-	position: fixed;
-	top: 0;
-	right: 0;
-	color: white;
-	margin: 16px;
-	text-align: center;
-	font-size: 12px;
-	font-family: sans-serif;
-	background-color:#444444;
-	cursor: pointer;
-	padding: 6px;
-	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
-}
+		#code-csp-warning {
+			position: fixed;
+			top: 0;
+			right: 0;
+			color: white;
+			margin: 16px;
+			text-align: center;
+			font-size: 12px;
+			font-family: sans-serif;
+			background-color: #444444;
+			cursor: pointer;
+			padding: 6px;
+			box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
+		}
 
-#code-csp-warning:hover {
-	text-decoration: none;
-	background-color:#007acc;
-	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
-}
+		#code-csp-warning:hover {
+			text-decoration: none;
+			background-color: #007acc;
+			box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
+		}
 
-body.scrollBeyondLastLine {
-	margin-bottom: calc(100vh - 22px);
-}
+		body.scrollBeyondLastLine {
+			margin-bottom: calc(100vh - 22px);
+		}
 
-body.showEditorSelection .code-line {
-	position: relative;
-}
+		body.showEditorSelection .code-line {
+			position: relative;
+		}
 
-body.showEditorSelection .code-active-line:before,
-body.showEditorSelection .code-line:hover:before {
-	content: "";
-	display: block;
-	position: absolute;
-	top: 0;
-	left: -12px;
-	height: 100%;
-}
+		body.showEditorSelection .code-active-line:before,
+		body.showEditorSelection .code-line:hover:before {
+			content: "";
+			display: block;
+			position: absolute;
+			top: 0;
+			left: -12px;
+			height: 100%;
+		}
 
-body.showEditorSelection li.code-active-line:before,
-body.showEditorSelection li.code-line:hover:before {
-	left: -30px;
-}
+		body.showEditorSelection li.code-active-line:before,
+		body.showEditorSelection li.code-line:hover:before {
+			left: -30px;
+		}
 
-.vscode-light.showEditorSelection .code-active-line:before {
-	border-left: 3px solid rgba(0, 0, 0, 0.15);
-}
+		.vscode-light.showEditorSelection .code-active-line:before {
+			border-left: 3px solid rgba(0, 0, 0, 0.15);
+		}
 
-.vscode-light.showEditorSelection .code-line:hover:before {
-	border-left: 3px solid rgba(0, 0, 0, 0.40);
-}
+		.vscode-light.showEditorSelection .code-line:hover:before {
+			border-left: 3px solid rgba(0, 0, 0, 0.4);
+		}
 
-.vscode-light.showEditorSelection .code-line .code-line:hover:before {
-	border-left: none;
-}
+		.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+			border-left: none;
+		}
 
-.vscode-dark.showEditorSelection .code-active-line:before {
-	border-left: 3px solid rgba(255, 255, 255, 0.4);
-}
+		.vscode-dark.showEditorSelection .code-active-line:before {
+			border-left: 3px solid rgba(255, 255, 255, 0.4);
+		}
 
-.vscode-dark.showEditorSelection .code-line:hover:before {
-	border-left: 3px solid rgba(255, 255, 255, 0.60);
-}
+		.vscode-dark.showEditorSelection .code-line:hover:before {
+			border-left: 3px solid rgba(255, 255, 255, 0.6);
+		}
 
-.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
-	border-left: none;
-}
+		.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+			border-left: none;
+		}
 
-.vscode-high-contrast.showEditorSelection .code-active-line:before {
-	border-left: 3px solid rgba(255, 160, 0, 0.7);
-}
+		.vscode-high-contrast.showEditorSelection .code-active-line:before {
+			border-left: 3px solid rgba(255, 160, 0, 0.7);
+		}
 
-.vscode-high-contrast.showEditorSelection .code-line:hover:before {
-	border-left: 3px solid rgba(255, 160, 0, 1);
-}
+		.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+			border-left: 3px solid rgba(255, 160, 0, 1);
+		}
 
-.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
-	border-left: none;
-}
+		.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+			border-left: none;
+		}
 
-img {
-	max-width: 100%;
-	max-height: 100%;
-}
+		img {
+			max-width: 100%;
+			max-height: 100%;
+		}
 
-a {
-	text-decoration: none;
-}
+		a {
+			text-decoration: none;
+		}
 
-a:hover {
-	text-decoration: underline;
-}
+		a:hover {
+			text-decoration: underline;
+		}
 
-a:focus,
-input:focus,
-select:focus,
-textarea:focus {
-	outline: 1px solid -webkit-focus-ring-color;
-	outline-offset: -1px;
-}
+		a:focus,
+		input:focus,
+		select:focus,
+		textarea:focus {
+			outline: 1px solid -webkit-focus-ring-color;
+			outline-offset: -1px;
+		}
 
-hr {
-	border: 0;
-	height: 2px;
-	border-bottom: 2px solid;
-}
+		hr {
+			border: 0;
+			height: 2px;
+			border-bottom: 2px solid;
+		}
 
-h1 {
-	padding-bottom: 0.3em;
-	line-height: 1.2;
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-}
+		h1 {
+			padding-bottom: 0.3em;
+			line-height: 1.2;
+			border-bottom-width: 1px;
+			border-bottom-style: solid;
+		}
 
-h1, h2, h3 {
-	font-weight: normal;
-}
+		h1,
+		h2,
+		h3 {
+			font-weight: normal;
+		}
 
-table {
-	border-collapse: collapse;
-}
+		table {
+			border-collapse: collapse;
+		}
 
-table > thead > tr > th {
-	text-align: left;
-	border-bottom: 1px solid;
-}
+		table>thead>tr>th {
+			text-align: left;
+			border-bottom: 1px solid;
+		}
 
-table > thead > tr > th,
-table > thead > tr > td,
-table > tbody > tr > th,
-table > tbody > tr > td {
-	padding: 5px 10px;
-}
+		table>thead>tr>th,
+		table>thead>tr>td,
+		table>tbody>tr>th,
+		table>tbody>tr>td {
+			padding: 5px 10px;
+		}
 
-table > tbody > tr + tr > td {
-	border-top: 1px solid;
-}
+		table>tbody>tr+tr>td {
+			border-top: 1px solid;
+		}
 
-blockquote {
-	margin: 0 7px 0 5px;
-	padding: 0 16px 0 10px;
-	border-left-width: 5px;
-	border-left-style: solid;
-}
+		blockquote {
+			margin: 0 7px 0 5px;
+			padding: 0 16px 0 10px;
+			border-left-width: 5px;
+			border-left-style: solid;
+		}
 
-code {
-	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
-	font-size: 1em;
-	line-height: 1.357em;
-}
+		code {
+			font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New",
+				monospace, "Droid Sans Fallback";
+			font-size: 1em;
+			line-height: 1.357em;
+		}
 
-body.wordWrap pre {
-	white-space: pre-wrap;
-}
+		body.wordWrap pre {
+			white-space: pre-wrap;
+		}
 
-pre:not(.hljs),
-pre.hljs code > div {
-	padding: 16px;
-	border-radius: 3px;
-	overflow: auto;
-}
+		pre:not(.hljs),
+		pre.hljs code>div {
+			padding: 16px;
+			border-radius: 3px;
+			overflow: auto;
+		}
 
-pre code {
-	color: var(--vscode-editor-foreground);
-	tab-size: 4;
-}
+		pre code {
+			color: var(--vscode-editor-foreground);
+			tab-size: 4;
+		}
 
-/** Theming */
+		/** Theming */
 
-.vscode-light pre {
-	background-color: rgba(220, 220, 220, 0.4);
-}
+		.vscode-light pre {
+			background-color: rgba(220, 220, 220, 0.4);
+		}
 
-.vscode-dark pre {
-	background-color: rgba(10, 10, 10, 0.4);
-}
+		.vscode-dark pre {
+			background-color: rgba(10, 10, 10, 0.4);
+		}
 
-.vscode-high-contrast pre {
-	background-color: rgb(0, 0, 0);
-}
+		.vscode-high-contrast pre {
+			background-color: rgb(0, 0, 0);
+		}
 
-.vscode-high-contrast h1 {
-	border-color: rgb(0, 0, 0);
-}
+		.vscode-high-contrast h1 {
+			border-color: rgb(0, 0, 0);
+		}
 
-.vscode-light table > thead > tr > th {
-	border-color: rgba(0, 0, 0, 0.69);
-}
+		.vscode-light table>thead>tr>th {
+			border-color: rgba(0, 0, 0, 0.69);
+		}
 
-.vscode-dark table > thead > tr > th {
-	border-color: rgba(255, 255, 255, 0.69);
-}
+		.vscode-dark table>thead>tr>th {
+			border-color: rgba(255, 255, 255, 0.69);
+		}
 
-.vscode-light h1,
-.vscode-light hr,
-.vscode-light table > tbody > tr + tr > td {
-	border-color: rgba(0, 0, 0, 0.18);
-}
+		.vscode-light h1,
+		.vscode-light hr,
+		.vscode-light table>tbody>tr+tr>td {
+			border-color: rgba(0, 0, 0, 0.18);
+		}
 
-.vscode-dark h1,
-.vscode-dark hr,
-.vscode-dark table > tbody > tr + tr > td {
-	border-color: rgba(255, 255, 255, 0.18);
-}
+		.vscode-dark h1,
+		.vscode-dark hr,
+		.vscode-dark table>tbody>tr+tr>td {
+			border-color: rgba(255, 255, 255, 0.18);
+		}
+	</style>
 
-</style>
+	<style>
+		/* Tomorrow Theme */
+		/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+		/* Original theme - https://github.com/chriskempson/tomorrow-theme */
 
-<style>
-/* Tomorrow Theme */
-/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
-/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+		/* Tomorrow Comment */
+		.hljs-comment,
+		.hljs-quote {
+			color: #8e908c;
+		}
 
-/* Tomorrow Comment */
-.hljs-comment,
-.hljs-quote {
-	color: #8e908c;
-}
+		/* Tomorrow Red */
+		.hljs-variable,
+		.hljs-template-variable,
+		.hljs-tag,
+		.hljs-name,
+		.hljs-selector-id,
+		.hljs-selector-class,
+		.hljs-regexp,
+		.hljs-deletion {
+			color: #c82829;
+		}
 
-/* Tomorrow Red */
-.hljs-variable,
-.hljs-template-variable,
-.hljs-tag,
-.hljs-name,
-.hljs-selector-id,
-.hljs-selector-class,
-.hljs-regexp,
-.hljs-deletion {
-	color: #c82829;
-}
+		/* Tomorrow Orange */
+		.hljs-number,
+		.hljs-built_in,
+		.hljs-builtin-name,
+		.hljs-literal,
+		.hljs-type,
+		.hljs-params,
+		.hljs-meta,
+		.hljs-link {
+			color: #f5871f;
+		}
 
-/* Tomorrow Orange */
-.hljs-number,
-.hljs-built_in,
-.hljs-builtin-name,
-.hljs-literal,
-.hljs-type,
-.hljs-params,
-.hljs-meta,
-.hljs-link {
-	color: #f5871f;
-}
+		/* Tomorrow Yellow */
+		.hljs-attribute {
+			color: #eab700;
+		}
 
-/* Tomorrow Yellow */
-.hljs-attribute {
-	color: #eab700;
-}
+		/* Tomorrow Green */
+		.hljs-string,
+		.hljs-symbol,
+		.hljs-bullet,
+		.hljs-addition {
+			color: #718c00;
+		}
 
-/* Tomorrow Green */
-.hljs-string,
-.hljs-symbol,
-.hljs-bullet,
-.hljs-addition {
-	color: #718c00;
-}
+		/* Tomorrow Blue */
+		.hljs-title,
+		.hljs-section {
+			color: #4271ae;
+		}
 
-/* Tomorrow Blue */
-.hljs-title,
-.hljs-section {
-	color: #4271ae;
-}
+		/* Tomorrow Purple */
+		.hljs-keyword,
+		.hljs-selector-tag {
+			color: #8959a8;
+		}
 
-/* Tomorrow Purple */
-.hljs-keyword,
-.hljs-selector-tag {
-	color: #8959a8;
-}
+		.hljs {
+			display: block;
+			overflow-x: auto;
+			color: #4d4d4c;
+			padding: 0.5em;
+		}
 
-.hljs {
-	display: block;
-	overflow-x: auto;
-	color: #4d4d4c;
-	padding: 0.5em;
-}
+		.hljs-emphasis {
+			font-style: italic;
+		}
 
-.hljs-emphasis {
-	font-style: italic;
-}
+		.hljs-strong {
+			font-weight: bold;
+		}
+	</style>
 
-.hljs-strong {
-	font-weight: bold;
-}
-</style>
-
-
-<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+	<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
 </head>
+
 <body>
-  <script>
-    mermaid.initialize({
-      startOnLoad: true,
-      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
-          ? 'dark'
-          : 'default'
-    });
-  </script>
-<h1 id="pr%C3%A1tica-rpa-streaming">Prática RPA Streaming</h1>
-<h2 id="i-pr%C3%A9-requisitos">I. Pré-requisitos</h2>
-<ol>
-<li>Computador rodando Windows 10 ou Windows 11, com acesso à internet através de um endereço IP público, <a href="https://get.videolan.org/vlc/3.0.21/win64/vlc-3.0.21-win64.exe">VLC Media Player</a> e <a href="https://cdn-fastly.obsproject.com/downloads/OBS-Studio-32.0.1-Windows-x64-Installer.exe">OBS Studio</a> instalados;</li>
-<li>Qualquer drone DJI que transmita mídia através do protocolo RTMP;</li>
-<li>Qualquer smartphone com acesso à internet via rede de telefonia móvel e que funcione como ponto de acesso Wi-Fi (Roteador Wi-Fi, Tethering Wi-Fi, etc.);</li>
-<li>Uma conta Google com um canal criado no YouTube.</li>
-</ol>
-<h2 id="ii-preparando-o-servidor-de-streaming-monaserver">II. Preparando o servidor de streaming (MonaServer)</h2>
-<ol>
-<li>
-<p>Faça o download do <a href="https://sourceforge.net/projects/monaserver/files/MonaServer/MonaServer_Win64.zip/download">MonaSever</a>;</p>
-<video width="70%" controls>
-  <source src="media/01. MONASERVER - DOWNLOAD.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
-</li>
-<li>
-<p>Descompacte o arquivo baixado em qualquer diretório a que tenha acesso;</p>
-<video width="70%" controls>
-  <source src="media/02. MONASERVER - EXTRAIR.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
-</li>
-<li>
-<p>Acesse o diretório descompactado e edite o arquivo &quot;MonaServer.ini&quot; utilizando um editor de texto simples (recomenda-se o Bloco de Notas do Windows);</p>
-</li>
-<li>
-<p>Localize cada um dos servidores que não serão utilizados (<em>[HTTP], [HTTPS], [WS], [WSS], [STUN], [SRT], [RTMPS] e [RTMFP]</em>) adicione o texto <em><strong>=false</strong></em> logo após o nome do protocolo (Ex: [HTTP=false]) para desabilitá-lo;</p>
-</li>
-<li>
-<p>Localize o servidor [RTMP] e adicione o texto <em><strong>=true</strong></em> logo após o nome do protocolo para habilitá-lo;</p>
-<video width="70%" controls>
-  <source src="media/03. MONASERVER - CONFIGURAR SERVIDOR RTMP.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
-</li>
-<li>
-<p>Acesse o diretório <em><strong>www</strong></em> e dentro dele crie um novo subdiretório para o fluxo de vídeo do drone, nomeando-o <em>&quot;arp01&quot;</em>.</p>
-<blockquote>
-<p>OBS: Ao iniciar, o MonaServer cria uma pasta www em seu diretório raiz, caso ela ainda não exista. Nesse espaço, você pode criar subpastas, cada uma delas descrevendo um aplicativo de servidor. Quando um cliente se conecta ao MonaServer, o caminho da URL relaciona o aplicativo a ser usado. Por exemplo, a URL <em>rtmp://192.168.2.247:1935/myApplication/12345</em> aponta para seu aplicativo correspondente na pasta <em>MonaServer/www/myApplication,</em> utilizando a chave de transmissão <em>&quot;12345&quot;,</em> no computador de endereço IP <em>&quot;192.168.2.247&quot;,</em> que atende a requisições RTMP através da porta 1935.</p>
-</blockquote>
-<video width="70%" controls>
-  <source src="media/04. MONASERVER - CONFIGURAR APLICAÇÕES DE  SERVIDOR.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
-</li>
-</ol>
-<img src="media/EXPLICAÇÃO URL.png" alt="Explicação URL" width="500">
-<h2 id="iii-configurando-o-software-de-codifica%C3%A7%C3%A3o-obs-studio">III. Configurando o software de codificação (OBS Studio)</h2>
-<h3 id="configura%C3%A7%C3%A3o-inicial">Configuração inicial</h3>
-<ol>
-<li>
-<p>Na primeira execução do OBS Studio o assistente de configuração será iniciado (Caso o assistente não inicie automaticamente, clique no menu <em><code>Ferramentas &gt; Assistente de configuração</code></em>). Marque a opção <em><code>&quot;Otimizar para transmissão, gravação é opcional&quot;</code></em> e clique em <em><code>Avançar</code></em>;</p>
-</li>
-<li>
-<p>Em <em><code>&quot;FPS&quot;</code></em> selecione 30 e clique em <em><code>Avançar</code></em>;</p>
-</li>
-<li>
-<p>Em <em><code>&quot;Serviço&quot;</code></em> selecione <em><code>&quot;YouTube - RTMPS&quot;</code></em> e clique em <em><code>&quot;Conectar conta (recomendado)&quot;</code></em>;</p>
-</li>
-<li>
-<p>Na janela que abrir selecione a conta Google que será usada para a transmissão;</p>
-</li>
-<li>
-<p>No assistente de configuração clique em <em><code>Avançar</code></em>;</p>
-</li>
-<li>
-<p>Ao final do teste clique em <em><code>Aplicar configurações</code></em>;</p>
-</li>
-<li>
-<p>No painel <em><code>&quot;Controles&quot;</code></em> ative o <em><code>&quot;Modo estúdio&quot;</code></em>.</p>
-<video width="70%" controls>
-  <source src="media/05. OBS - CONFIGURAÇÃO INICIAL.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
-</li>
-</ol>
-<h3 id="configura%C3%A7%C3%A3o-das-cenas">Configuração das cenas</h3>
-<ol>
-<li>
-<p>No painel <em><code>&quot;Cenas&quot;</code></em> crie uma cena de espera com os elementos de sua preferência;</p>
-</li>
-<li>
-<p>No painel <em><code>&quot;Cenas&quot;</code></em> clique em <em><code>&quot;+&quot;</code></em> para criar uma cena para o as imagens do drone nomeando-a como <em>&quot;DRONE_01&quot;</em>;</p>
-</li>
-<li>
-<p>Com a cena <em>&quot;DRONE_01&quot;</em> selecionada, no painel <em><code>&quot;Fontes&quot;</code></em>, clique em <em><code>&quot;+&quot;</code></em> para criar uma nova fonte de vídeo;</p>
-</li>
-<li>
-<p>Selecione <em><code>&quot;Fonte de vídeo do VLC&quot;</code></em> nomeando-a como <em>&quot;ARP_01&quot;</em>;</p>
-</li>
-<li>
-<p>Em <em><code>&quot;Comportamento de visibilidade&quot;</code></em> selecione <em><code>&quot;Sempre reproduzir, mesmo quando não visível&quot;</code></em>;</p>
-</li>
-<li>
-<p>Em <em><code>&quot;Lista de reprodução&quot;</code></em> clique em <em><code>&quot;+&quot;</code></em> e selecione <em><code>&quot;Adicionar caminho ou URL&quot;</code></em>;</p>
-</li>
-<li>
-<p>Digite a URL da aplicação de servidor configurada no MonaServer para o fluxo de vídeo do drone: <em><code>rtmp://localhost:1935/arp01/01</code></em></p>
-<video width="70%" controls>
-  <source src="media/06. OBS - CONFIGURAÇÃO DE CENAS.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
-</li>
-</ol>
-<h2 id="iv-configurando-o-controle-remoto">IV. Configurando o controle remoto</h2>
-<ol>
-<li>
-<p>No controle remoto, em modo de pilotagem e a aeronave pronta para voo, abra o menu de configurações;</p>
-</li>
-<li>
-<p>Toque em <em><code>&quot;Common Settings &gt; Live Stream &gt; RTMP LiveStream&quot;</code></em> e insira a URL do servidor de streaming: <em>rtmp://&lt;seu_ip_público&gt;:1935/arp01/01</em></p>
-<blockquote>
-<p><strong>ATENÇÃO!</strong> Ao inserir a URL no controle remoto substitua o trecho &quot;&lt;<em>seu_ip_público&gt;&quot;</em> pelo endereço IP público do seu computador.</p>
-</blockquote>
-<video width="70%" controls>
-  <source src="media/07. CONTROLE REMOTO - CONFIGURAR LIVESTREAM.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
-</li>
-</ol>
-<h2 id="v-transmitindo-ao-vivo-para-o-youtube">V. Transmitindo ao vivo para o YouTube</h2>
-<ol>
-<li>
-<p>Execute o MonaServer;</p>
-</li>
-<li>
-<p>Abra o OBS Studio;</p>
-</li>
-<li>
-<p>No painel <em><code>&quot;Controles&quot;</code></em> clique em <em><code>&quot;Gerenciar transmissão&quot;</code></em>;</p>
-</li>
-<li>
-<p>Clique na aba <em><code>&quot;Nova transmissão&quot;</code></em>;</p>
-</li>
-<li>
-<p>Preencha os campos apresentados com os dados desejados e clique em <em><code>&quot;Criar transmissão&quot;</code></em>;</p>
-</li>
-<li>
-<p>No painel <em><code>&quot;Cenas&quot;</code></em> selecione a cena <em>&quot;ESPERA&quot;</em> para carregá-la na <em><code>&quot;Pré-visualização&quot;</code></em>;</p>
-</li>
-<li>
-<p>Clique em <em><code>&quot;Transição&quot;</code></em> para carregar a cena <em>&quot;ESPERA&quot;</em> no <em><code>&quot;Programa&quot;</code></em>;</p>
-</li>
-<li>
-<p>No painel <em><code>&quot;Controle&quot;</code></em> clique em <em><code>&quot;Iniciar transmissão&quot;</code></em> (Nesse momento a transmissão ao vivo no YouTube passa a receber as imagens geradas pelo OBS Studio);</p>
-<video width="70%" controls>
-  <source src="media/08. TRANSMITINDO AO VIVO PARA O YOUTUBE.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
-</li>
-<li>
-<p>No smartphone ative o <em><code>&quot;Roteador Wi-Fi&quot;</code></em>;</p>
-</li>
-<li>
-<p>Conecte o controle remoto do drone à rede Wi-Fi do smartphone;</p>
-</li>
-<li>
-<p>No controle remoto, em modo de pilotagem e com a aeronave pronta para voo, abra o menu de configurações;</p>
-</li>
-<li>
-<p>Toque em <em><code>&quot;Common Settings &gt; Live Stream &gt; RTMP LiveStream&quot;</code></em>;</p>
-</li>
-<li>
-<p>Ative a função <em><code>&quot;RTMP LiveStream&quot;</code></em> para que a imagem da câmera do drone seja transmitida para o computador;</p>
-<video width="70%" controls>
-  <source src="media/09. CONTROLE REMOTO - LIVESTREAM.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
-</li>
-<li>
-<p>No OBS Studio selecione a cena <em>&quot;DRONE_01&quot;</em>;</p>
-</li>
-<li>
-<p>Clique em <em><code>&quot;Transição&quot;</code></em> para que a imagem do drone seja transmitida para o YouTube;</p>
-</li>
-<li>
-<p>O link da transmissão pode ser encontrado no <a href="https://studio.youtube.com/">YouTube Studio</a> em <em>&quot;Conteúdo &gt; Ao vivo&quot;</em>;</p>
-</li>
-<li>
-<p>No painel <em><code>&quot;Controle&quot;</code></em> clique em <em><code>&quot;Interromper transmissão&quot;</code></em> para encerrar a transmissão.</p>
-</li>
-</ol>
-<h2 id="considera%C3%A7%C3%B5es%20finais">VI. Considerações finais</h2>
-<ul>
-<li>
-<p>O exemplo prático de streaming de vídeo apresentado aqui assume que o computador que roda o servidor de mídia seja capaz de atender a requisições RTMP na internet. É responsabilidade do usuário a implementação de dispositivos de segurança lógica para um servidor exposto à internet.</p>
-</li>
-<li>
-<p>É também responsabilidade do usuário a correta configuação dos dispositivos da rede em que o seu servidor de mídia esteja inserido (configuração de regras de entrada/saída em firewall, DMZ, NAT, redirecionamentos de endereços IP, roteamentos, etc.)</p>
-</li>
-<li>
-<p>O drone utilizado neste exemplo foi um DJI Mavic 2 Enterprise. Qualquer outra aeronave pode ser utilizada para streaming com o método apresentado desde que transmita fluxo de vídeo via RTMP.</p>
-</li>
-<li>
-<p>O uso de um smartphone como meio de acesso à internet para o controle remoto da aeronave foi escolhido por sua praticidade, acessibilidade e economia. Em locais com grande concentração de pessoas em que o piloto necessite operar já foram constatados travamentos, interrupções e maior delay na transmissão devidos ao congestinoamento da rede de telefonia móvel. O uso de <a href="https://2live.com.br/mochilink-o-que-e/">mochilinks</a> e\ou <a href="https://starlink.com/br/roam">equipamentos de internet via satélite</a> podem ajudar a mitigar alguns desses efeitos.</p>
-</li>
-<li>
-<p>Operações de streaming de vídeos de drones exigem comunicação constante e afinada entre pilotos (no terreno) e o diretor de imagens (na base).</p>
-</li>
-</ul>
+	<script>
+		mermaid.initialize({
+			startOnLoad: true,
+			theme:
+				document.body.classList.contains("vscode-dark") ||
+					document.body.classList.contains("vscode-high-contrast")
+					? "dark"
+					: "default",
+		});
+	</script>
+	<h1 id="pr%C3%A1tica-rpa-streaming">Prática RPA Streaming</h1>
+	<h2 id="i-pr%C3%A9-requisitos">I. Pré-requisitos</h2>
+	<ol>
+		<li>
+			Computador rodando Windows 10 ou Windows 11, com acesso à internet
+			através de um endereço IP público,
+			<a href="https://get.videolan.org/vlc/3.0.21/win64/vlc-3.0.21-win64.exe">VLC Media Player</a>
+			e
+			<a href="https://cdn-fastly.obsproject.com/downloads/OBS-Studio-32.0.1-Windows-x64-Installer.exe">OBS
+				Studio</a>
+			instalados;
+		</li>
+		<li>Qualquer drone DJI que transmita mídia através do protocolo RTMP;</li>
+		<li>
+			Qualquer smartphone com acesso à internet via rede de telefonia móvel e
+			que funcione como ponto de acesso Wi-Fi (Roteador Wi-Fi, Tethering
+			Wi-Fi, etc.);
+		</li>
+		<li>Uma conta Google com um canal criado no YouTube.</li>
+	</ol>
+	<h2 id="ii-preparando-o-servidor-de-streaming-monaserver">
+		II. Preparando o servidor de streaming (MonaServer)
+	</h2>
+	<ol>
+		<li>
+			<p>
+				Faça o download do
+				<a
+					href="https://sourceforge.net/projects/monaserver/files/MonaServer/MonaServer_Win64.zip/download">MonaSever</a>;
+			</p>
+			<video width="70%" controls>
+				<source src="media/01. MONASERVER - DOWNLOAD.mp4" type="video/mp4" />
+				Your browser does not support the video tag.
+			</video>
+		</li>
+		<li>
+			<p>
+				Descompacte o arquivo baixado em qualquer diretório a que tenha
+				acesso;
+			</p>
+			<video width="70%" controls>
+				<source src="media/02. MONASERVER - EXTRAIR.mp4" type="video/mp4" />
+				Your browser does not support the video tag.
+			</video>
+		</li>
+		<li>
+			<p>
+				Acesse o diretório descompactado e edite o arquivo
+				&quot;MonaServer.ini&quot; utilizando um editor de texto simples
+				(recomenda-se o Bloco de Notas do Windows);
+			</p>
+		</li>
+		<li>
+			<p>
+				Localize cada um dos servidores que não serão utilizados (<em>[HTTP], [HTTPS], [WS], [WSS], [STUN],
+					[SRT], [RTMPS] e [RTMFP]</em>) adicione o texto <em><strong>=false</strong></em> logo após o nome
+				do protocolo (Ex: [HTTP=false]) para desabilitá-lo;
+			</p>
+		</li>
+		<li>
+			<p>
+				Localize o servidor [RTMP] e adicione o texto
+				<em><strong>=true</strong></em> logo após o nome do protocolo para
+				habilitá-lo;
+			</p>
+			<video width="70%" controls>
+				<source src="media/03. MONASERVER - CONFIGURAR SERVIDOR RTMP.mp4" type="video/mp4" />
+				Your browser does not support the video tag.
+			</video>
+		</li>
+		<li>
+			<p>
+				Acesse o diretório <em><strong>www</strong></em> e dentro dele crie um
+				novo subdiretório para o fluxo de vídeo do drone, nomeando-o
+				<em>&quot;arp01&quot;</em>.
+			</p>
+			<blockquote>
+				<p>
+					OBS: Ao iniciar, o MonaServer cria uma pasta www em seu diretório
+					raiz, caso ela ainda não exista. Nesse espaço, você pode criar
+					subpastas, cada uma delas descrevendo um aplicativo de servidor.
+					Quando um cliente se conecta ao MonaServer, o caminho da URL
+					relaciona o aplicativo a ser usado. Por exemplo, a URL
+					<em>rtmp://192.168.2.247:1935/myApplication/12345</em> aponta para
+					seu aplicativo correspondente na pasta
+					<em>MonaServer/www/myApplication,</em> utilizando a chave de
+					transmissão <em>&quot;12345&quot;,</em> no computador de endereço IP
+					<em>&quot;192.168.2.247&quot;,</em> que atende a requisições RTMP
+					através da porta 1935.
+				</p>
+			</blockquote>
+			<video width="70%" controls>
+				<source src="media/04. MONASERVER - CONFIGURAR APLICAÇÕES DE  SERVIDOR.mp4" type="video/mp4" />
+				Your browser does not support the video tag.
+			</video>
+		</li>
+	</ol>
+	<img src="media/EXPLICAÇÃO URL.png" alt="Explicação URL" width="500" />
+	<h2 id="iii-configurando-o-software-de-codifica%C3%A7%C3%A3o-obs-studio">
+		III. Configurando o software de codificação (OBS Studio)
+	</h2>
+	<h3 id="configura%C3%A7%C3%A3o-inicial">Configuração inicial</h3>
+	<ol>
+		<li>
+			<p>
+				Na primeira execução do OBS Studio o assistente de configuração será
+				iniciado (Caso o assistente não inicie automaticamente, clique no menu
+				<em><code>Ferramentas &gt; Assistente de configuração</code></em>). Marque a opção
+				<em><code>&quot;Otimizar para transmissão, gravação é opcional&quot;</code></em>
+				e clique em <em><code>Avançar</code></em>;
+			</p>
+		</li>
+		<li>
+			<p>
+				Em <em><code>&quot;FPS&quot;</code></em> selecione 30 e clique em
+				<em><code>Avançar</code></em>;
+			</p>
+		</li>
+		<li>
+			<p>
+				Em <em><code>&quot;Serviço&quot;</code></em> selecione
+				<em><code>&quot;YouTube - RTMPS&quot;</code></em> e clique em
+				<em><code>&quot;Conectar conta (recomendado)&quot;</code></em>;
+			</p>
+		</li>
+		<li>
+			<p>
+				Na janela que abrir selecione a conta Google que será usada para a
+				transmissão;
+			</p>
+		</li>
+		<li>
+			<p>
+				No assistente de configuração clique em <em><code>Avançar</code></em>;
+			</p>
+		</li>
+		<li>
+			<p>
+				Ao final do teste clique em <em><code>Aplicar configurações</code></em>;
+			</p>
+		</li>
+		<li>
+			<p>
+				No painel <em><code>&quot;Controles&quot;</code></em> ative o
+				<em><code>&quot;Modo estúdio&quot;</code></em>.
+			</p>
+			<video width="70%" controls>
+				<source src="media/05. OBS - CONFIGURAÇÃO INICIAL.mp4" type="video/mp4" />
+				Your browser does not support the video tag.
+			</video>
+		</li>
+	</ol>
+	<h3 id="configura%C3%A7%C3%A3o-das-cenas">Configuração das cenas</h3>
+	<ol>
+		<li>
+			<p>
+				No painel <em><code>&quot;Cenas&quot;</code></em> crie uma cena de
+				espera com os elementos de sua preferência;
+			</p>
+		</li>
+		<li>
+			<p>
+				No painel <em><code>&quot;Cenas&quot;</code></em> clique em
+				<em><code>&quot;+&quot;</code></em> para criar uma cena para o as
+				imagens do drone nomeando-a como <em>&quot;DRONE_01&quot;</em>;
+			</p>
+		</li>
+		<li>
+			<p>
+				Com a cena <em>&quot;DRONE_01&quot;</em> selecionada, no painel
+				<em><code>&quot;Fontes&quot;</code></em>, clique em <em><code>&quot;+&quot;</code></em> para criar uma
+				nova
+				fonte de vídeo;
+			</p>
+		</li>
+		<li>
+			<p>
+				Selecione
+				<em><code>&quot;Fonte de vídeo do VLC&quot;</code></em> nomeando-a
+				como <em>&quot;ARP_01&quot;</em>;
+			</p>
+		</li>
+		<li>
+			<p>
+				Em
+				<em><code>&quot;Comportamento de visibilidade&quot;</code></em>
+				selecione
+				<em><code>&quot;Sempre reproduzir, mesmo quando não visível&quot;</code></em>;
+			</p>
+		</li>
+		<li>
+			<p>
+				Em <em><code>&quot;Lista de reprodução&quot;</code></em> clique em
+				<em><code>&quot;+&quot;</code></em> e selecione
+				<em><code>&quot;Adicionar caminho ou URL&quot;</code></em>;
+			</p>
+		</li>
+		<li>
+			<p>
+				Digite a URL da aplicação de servidor configurada no MonaServer para o
+				fluxo de vídeo do drone:
+				<em><code>rtmp://localhost:1935/arp01/01</code></em>
+			</p>
+			<video width="70%" controls>
+				<source src="media/06. OBS - CONFIGURAÇÃO DE CENAS.mp4" type="video/mp4" />
+				Your browser does not support the video tag.
+			</video>
+		</li>
+	</ol>
+	<h2 id="iv-configurando-o-controle-remoto">
+		IV. Configurando o controle remoto
+	</h2>
+	<ol>
+		<li>
+			<p>
+				No controle remoto, em modo de pilotagem e a aeronave pronta para voo,
+				abra o menu de configurações;
+			</p>
+		</li>
+		<li>
+			<p>
+				Toque em
+				<em><code>&quot;Common Settings &gt; Live Stream &gt; RTMP
+              LiveStream&quot;</code></em>
+				e insira a URL do servidor de streaming:
+				<em>rtmp://&lt;seu_ip_público&gt;:1935/arp01/01</em>
+			</p>
+			<blockquote>
+				<p>
+					<strong>ATENÇÃO!</strong> Ao inserir a URL no controle remoto
+					substitua o trecho &quot;&lt;<em>seu_ip_público&gt;&quot;</em> pelo
+					endereço IP público do seu computador.
+				</p>
+			</blockquote>
+			<video width="70%" controls>
+				<source src="media/07. CONTROLE REMOTO - CONFIGURAR LIVESTREAM.mp4" type="video/mp4" />
+				Your browser does not support the video tag.
+			</video>
+		</li>
+	</ol>
+	<h2 id="v-transmitindo-ao-vivo-para-o-youtube">
+		V. Transmitindo ao vivo para o YouTube
+	</h2>
+	<ol>
+		<li>
+			<p>Execute o MonaServer;</p>
+		</li>
+		<li>
+			<p>Abra o OBS Studio;</p>
+		</li>
+		<li>
+			<p>
+				No painel <em><code>&quot;Controles&quot;</code></em> clique em
+				<em><code>&quot;Gerenciar transmissão&quot;</code></em>;
+			</p>
+		</li>
+		<li>
+			<p>
+				Clique na aba <em><code>&quot;Nova transmissão&quot;</code></em>;
+			</p>
+		</li>
+		<li>
+			<p>
+				Preencha os campos apresentados com os dados desejados e clique em
+				<em><code>&quot;Criar transmissão&quot;</code></em>;
+			</p>
+		</li>
+		<li>
+			<p>
+				No painel <em><code>&quot;Cenas&quot;</code></em> selecione a cena
+				<em>&quot;ESPERA&quot;</em> para carregá-la na
+				<em><code>&quot;Pré-visualização&quot;</code></em>;
+			</p>
+		</li>
+		<li>
+			<p>
+				Clique em <em><code>&quot;Transição&quot;</code></em> para carregar a
+				cena <em>&quot;ESPERA&quot;</em> no
+				<em><code>&quot;Programa&quot;</code></em>;
+			</p>
+		</li>
+		<li>
+			<p>
+				No painel <em><code>&quot;Controle&quot;</code></em> clique em
+				<em><code>&quot;Iniciar transmissão&quot;</code></em> (Nesse momento a
+				transmissão ao vivo no YouTube passa a receber as imagens geradas pelo
+				OBS Studio);
+			</p>
+			<video width="70%" controls>
+				<source src="media/08. TRANSMITINDO AO VIVO PARA O YOUTUBE.mp4" type="video/mp4" />
+				Your browser does not support the video tag.
+			</video>
+		</li>
+		<li>
+			<p>
+				No smartphone ative o <em><code>&quot;Roteador Wi-Fi&quot;</code></em>;
+			</p>
+		</li>
+		<li>
+			<p>Conecte o controle remoto do drone à rede Wi-Fi do smartphone;</p>
+		</li>
+		<li>
+			<p>
+				No controle remoto, em modo de pilotagem e com a aeronave pronta para
+				voo, abra o menu de configurações;
+			</p>
+		</li>
+		<li>
+			<p>
+				Toque em
+				<em><code>&quot;Common Settings &gt; Live Stream &gt; RTMP
+              LiveStream&quot;</code></em>;
+			</p>
+		</li>
+		<li>
+			<p>
+				Ative a função <em><code>&quot;RTMP LiveStream&quot;</code></em> para
+				que a imagem da câmera do drone seja transmitida para o computador;
+			</p>
+			<video width="70%" controls>
+				<source src="media/09. CONTROLE REMOTO - LIVESTREAM.mp4" type="video/mp4" />
+				Your browser does not support the video tag.
+			</video>
+		</li>
+		<li>
+			<p>No OBS Studio selecione a cena <em>&quot;DRONE_01&quot;</em>;</p>
+		</li>
+		<li>
+			<p>
+				Clique em <em><code>&quot;Transição&quot;</code></em> para que a
+				imagem do drone seja transmitida para o YouTube;
+			</p>
+		</li>
+		<li>
+			<p>
+				O link da transmissão pode ser encontrado no
+				<a href="https://studio.youtube.com/">YouTube Studio</a> em
+				<em>&quot;Conteúdo &gt; Ao vivo&quot;</em>;
+			</p>
+		</li>
+		<li>
+			<p>
+				No painel <em><code>&quot;Controle&quot;</code></em> clique em
+				<em><code>&quot;Interromper transmissão&quot;</code></em> para
+				encerrar a transmissão.
+			</p>
+		</li>
+	</ol>
+	<h2 id="considera%C3%A7%C3%B5es%20finais">VI. Considerações finais</h2>
+	<ul>
+		<li>
+			<p>
+				O exemplo prático de streaming de vídeo apresentado aqui assume que o
+				computador que roda o servidor de mídia seja capaz de atender a
+				requisições RTMP na internet. É responsabilidade do usuário a
+				implementação de dispositivos de segurança lógica para um servidor
+				exposto à internet.
+			</p>
+		</li>
+		<li>
+			<p>
+				É também responsabilidade do usuário a correta configuação dos
+				dispositivos da rede em que o seu servidor de mídia esteja inserido
+				(configuração de regras de entrada/saída em firewall, DMZ, NAT,
+				redirecionamentos de endereços IP, roteamentos, etc.)
+			</p>
+		</li>
+		<li>
+			<p>
+				O drone utilizado neste exemplo foi um DJI Mavic 2 Enterprise.
+				Qualquer outra aeronave pode ser utilizada para streaming com o método
+				apresentado desde que transmita fluxo de vídeo via RTMP.
+			</p>
+		</li>
+		<li>
+			<p>
+				O uso de um smartphone como meio de acesso à internet para o controle
+				remoto da aeronave foi escolhido por sua praticidade, acessibilidade e
+				economia. Foram constatados travamentos, interrupções e
+				maior delay na transmissão devidos ao congestinoamento da rede de
+				telefonia móvel em locais com grande concentração de pessoas em que o piloto
+				necessite operar. O uso de
+				<a href="https://2live.com.br/mochilink-o-que-e/">mochilinks</a> e\ou
+				<a href="https://starlink.com/br/roam">equipamentos de internet via satélite</a>
+				podem ajudar a mitigar alguns desses efeitos.
+			</p>
+		</li>
+		<li>
+			<p>
+				Operações de streaming de vídeos de drones exigem comunicação
+				constante e afinada entre pilotos (no terreno) e o diretor de imagens
+				(na base).
+			</p>
+		</li>
+	</ul>
 </body>
+
 </html>
